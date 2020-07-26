@@ -12,8 +12,8 @@ exports.CreateSauce = (req, res, next) => {
       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`,
       likes: 0,
       dislikes: 0,
-      usersLiked : [],
-      userDislked: []
+      usersLikes : [],
+      usersDislkes: []
     });
     sauce.save()
     .then(() => res.status(201).json({ message: 'Sauce ajoutée !'}))
@@ -58,65 +58,16 @@ exports.modifySauce = (req, res, next) => {
       .catch(error => res.status(500).json({ error }));
   };
 
+// like et dislike des sauces 
 
-
-// exports.likeSauce = (req, res, next) => {
-//   Sauce.updateOne({ $addToSet: { usersLikes: req.body.userId}, $inc: { likes: +1 } })
-//     .then(() => res.status(200).json({ message: 'Like ajouté !' }) )
-//     .catch(error => res.status(400).json({ error: 'Une erreur est survenue !' }) )
-// }
- 
-exports.likeSauce = (req, res, next) => {
-  switch (req.body.like) {
-    // Défault = 0
-    // Verification que l'utilisateur n'a pas déjà LIKER la sauce
-    case 0:
-      Sauce.findOne({ _id: req.params.id })
-        .then((sauce) => {
-          if (sauce.usersLiked.find(user => user === req.body.userId)) {
-            Sauce.updateOne({ _id: req.params.id }, {
-              $inc: { likes: -1 },
-              $pull: { usersLiked: req.body.userId },
-              _id: req.params.id
-            })
-              .then(() => { res.status(201).json({ message: 'Vous avez déjà liker cette sauce' }); })
-              .catch((error) => { res.status(400).json({ error: error }); });
-
-              // Verification que l'utilisateur n'a pas déjà DISLIKER la sauce
-          } if (sauce.usersDisliked.find(user => user === req.body.userId)) {
-            Sauce.updateOne({ _id: req.params.id }, {
-              $inc: { dislikes: -1 },
-              $pull: { usersDisliked: req.body.userId },
-              _id: req.params.id
-            })
-              .then(() => { res.status(201).json({ message: 'dislike ajouté' }); })
-              .catch((error) => { res.status(400).json({ error: error }); });
-          }
-        })
-        .catch((error) => { res.status(404).json({ error: error }); });
-      break;
-    //likes = 1
-    case 1:
-      Sauce.updateOne({ _id: req.params.id }, {
-        $inc: { likes: 1 },
-        $addToSet: { usersLiked: req.body.userId },
-        _id: req.params.id
-      })
-        .then(() => { res.status(201).json({ message: 'Like ajouté ' }); })
-        .catch((error) => { res.status(400).json({ error: error }); });
-      break;
-    //likes = -1
-    case -1:
-      Sauce.updateOne({ _id: req.params.id }, {
-        $inc: { dislikes: 1 },
-        $addToSet: { usersDisliked: req.body.userId },
-        _id: req.params.id
-      })
-        .then(() => { res.status(201).json({ message: 'like ajouté' }); })
-        .catch((error) => { res.status(400).json({ error: error }); });
-      break;
-    default:
-      console.log('Une erreur est survenue');
+ exports.likeSauce = (req, res, next) => {
+  if (req.body.like === 1){
+    Sauce.updateOne({ $addToSet: { usersLikes: req.body.userId}, $inc: { likes: +1 } })
+    .then(() => res.status(200).json({ message: 'Like ajouté !' }) )
+    .catch(error => res.status(400).json({ error: 'Une erreur est survenue !' }) )
+   } else if (req.body.like !== 1){
+    Sauce.updateOne({ $pull: { usersLikes: req.body.userId}, $inc: { likes: 0} })
+    .then(() => res.status(200).json({ message: 'Déjà liker !' }) )
+    .catch(error => res.status(400).json({ error: 'Une erreur est survenue !' }) )
   }
-}; 
- 
+}
