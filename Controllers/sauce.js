@@ -58,7 +58,7 @@ exports.modifySauce = (req, res, next) => {
       .catch(error => res.status(500).json({ error }));
   };
 
-//Like et disLike des sauces 
+
 
 // exports.likeSauce = (req, res, next) => {
 //   Sauce.updateOne({ $addToSet: { usersLikes: req.body.userId}, $inc: { likes: +1 } })
