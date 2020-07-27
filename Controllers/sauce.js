@@ -1,8 +1,7 @@
 const Sauce = require('../models/Sauce');
 const fs = require('fs');
 const { findOne } = require('../models/Sauce');
-const arrayLikes = [];
-const arrayDislikes = [];
+
 
 //Création d'une nouvelle sauce
 exports.CreateSauce = (req, res, next) => {

@@ -1,9 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');``
-const jwt = require('jsonwebtoken');
-const multer = require('multer');
 const path = require('path');
 
 const app = express();
