@@ -1,5 +1,7 @@
 const multer = require('multer');
 
+//permet d'ajouter des images à nos requêtes POST
+
 const MIME_TYPES = {
   'image/jpg': 'jpg',
   'image/jpeg': 'jpg',

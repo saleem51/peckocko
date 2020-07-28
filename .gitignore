@@ -3,3 +3,5 @@ node_modules
 essais.js
 test.js
 sauvegardelike.js
+.env
+.gitignore
