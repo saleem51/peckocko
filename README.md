@@ -20,4 +20,6 @@ angular doit être installé préalablement
 2) Le back-end
 
 1. Cloner le repository
+
+pour mongodb, entrer vos identifiants et mot de passe mongodb à la place des variables NAME et PASS (voir le fichier exemple.env)
 2. Executer node server ou nodemon server ou npx nodemon dans votre terminal/invite de commande
